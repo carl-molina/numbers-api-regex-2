@@ -163,6 +163,14 @@ function getBatchNums(rangesStr, parseValue) {
  *    }
  **/
 
+// NOTE: This route handles get requests to ...com/:num/:type
+// The difference here compared with what we've seen in express is that
+// the strings allowed in the route are being limited by regex
+// e.g., allTypesRegex allows for a /:type of (date | year | trivia | math)
+// In express, you can refine which url inputs are allowed by specifying
+// regex as a part of the route string. You can also use regex entirely if
+// that serves your need better:
+//   eg: app.get(/^\/(api|rest)\/.+$/, ...)
 router.get("/:num(-?[0-9]+)" + allTypesRegex, function (req, res) {
   var number = parseInt(req.params.num, 10);
 
@@ -197,11 +205,16 @@ router.get("/:num(-?[0-9]+)" + allTypesRegex, function (req, res) {
  *    }
  **/
 
+// NOTE: Another route with a regex definition, but this allows for an
+// array of numbers to be used as params.
+// A batch string like 1..9,15..20,25..30,35,37,39,40 is parsed into an array
+// of numbers by getBatchNums, then the facts are served with factsResponse.
+
 router.get("/:num([-0-9.,]+)" + allTypesRegex, function (req, res) {
   if (
     !req.params.num.match(
       /^-?[0-9]+(\.\.-?[0-9]+)?(,-?[0-9]+(\.\.-?[0-9]+)?)*$/
-    )
+    ) // NOTE: This simply verifies that the batch string is valid.
   ) {
     // 400: Bad request if bad match
     res.send("Invalid url", 400);
@@ -229,14 +242,14 @@ router.get("/:num([-0-9.,]+)" + allTypesRegex, function (req, res) {
  *    }
  **/
 
-router.get("/:month(-?[0-9]+)/:day(-?[0-9]+)/:type(date)?", function (
-  req,
-  res
-) {
-  var dayOfYear = utils.monthDayToDayOfYear(req.params.month, req.params.day);
-  req.params.type = "date";
-  factResponse(fact, req, res, dayOfYear);
-});
+router.get(
+  "/:month(-?[0-9]+)/:day(-?[0-9]+)/:type(date)?",
+  function (req, res) {
+    var dayOfYear = utils.monthDayToDayOfYear(req.params.month, req.params.day);
+    req.params.type = "date";
+    factResponse(fact, req, res, dayOfYear);
+  }
+);
 
 /** GET /:month(-?[0-9]+)/:day(-?[0-9]+)/:type(date)? - gets a fact
  *  about a date of the year
