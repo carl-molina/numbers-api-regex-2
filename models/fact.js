@@ -62,7 +62,7 @@ function getSentence({ wantFragment, number, type, data }) {
     const month = date.replace(/(\w+) \d+/, "$1");
     const day = parseInt(date.replace(/\w+ (\d+)/, "$1"), 10);
     text = `${text} on ${month} ${utils.getOrdinalSuffix(day)}`;
-  }
+  } // TODO: another regex for month/day
 
   return `${prefix} ${text}.`;
 }
@@ -135,8 +135,8 @@ const QUERY_DEFAULT = "default";
    Maybe this is not necessary, but too tired to think about it for now.
 
    @returns: An object with number categories as keys (e.g. "math"). The value for each key
-   is an array of objects which represent each of the possible numbers for each category 
-   (e.g. { number: 70, string: '70' }). 
+   is an array of objects which represent each of the possible numbers for each category
+   (e.g. { number: 70, string: '70' }).
 */
 const dataPairs = (function () {
   let ret = {};
