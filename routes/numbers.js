@@ -242,6 +242,7 @@ router.get("/:num([-0-9.,]+)" + allTypesRegex, function (req, res) {
  *    }
  **/
 
+// NOTE: When you go to /-12/-31 it responds with 10/30
 router.get(
   "/:month(-?[0-9]+)/:day(-?[0-9]+)/:type(date)?",
   function (req, res) {
