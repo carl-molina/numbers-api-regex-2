@@ -62,7 +62,7 @@ function getSentence({ wantFragment, number, type, data }) {
     const month = date.replace(/(\w+) \d+/, "$1");
     const day = parseInt(date.replace(/\w+ (\d+)/, "$1"), 10);
     text = `${text} on ${month} ${utils.getOrdinalSuffix(day)}`;
-  } // TODO: another regex for month/day
+  } // NOTE: another regex for month/day
 
   return `${prefix} ${text}.`;
 }

@@ -13,21 +13,21 @@
   function getParameterByName(query, name) {
     name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
     const regexS = `[\\?&]${name}=([^&#]*)`;
-    // TODO: regex pattern for multiple query strings
+    // NOTE: regex pattern for multiple query strings
 
     const regex = new RegExp(regexS);
     const results = regex.exec(query);
     if (results == null) return "";
     else return decodeURIComponent(results[1].replace(/\+/g, " "));
-  } // TODO: replaces + signs with spaces in URLs
+  } // NOTE: replaces + signs with spaces in URLs
 
   function processWidgetText(text) {
     let htmlEscaped = escapeForHtml(text);
 
     htmlEscaped = htmlEscaped.replace(/\^{(.*?)}/g, "<sup>$1</sup>");
-    // TODO: superscript for exponent chars ^
+    // NOTE: superscript for exponent chars ^
     htmlEscaped = htmlEscaped.replace(/\_{(.*?)}/g, "<sub>$1</sub>");
-    // TODO: subscript for H20 chars
+    // NOTE: subscript for H20 chars
 
     return htmlEscaped;
   }
