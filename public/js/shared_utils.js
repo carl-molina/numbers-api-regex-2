@@ -20,6 +20,7 @@
     return array[exports.randomIndex(array)];
   };
 
+  // TODO: no docstring -> 'th', 'st', 'nd', 'rd', 'th'
   exports.getOrdinalSuffix = function (num) {
     switch (true) {
       case num === 11:
@@ -84,6 +85,7 @@
     return exports.dateToDayOfYear(date);
   };
 
+  // TODO: no docstring
   exports.getStandalonePrefix = function (number, type, data = {}) {
     const { year } = data;
     if (type === "math") {
@@ -103,6 +105,7 @@
       let currYear = new Date().getFullYear();
 
       if (number < 0) {
+        // TODO: prefix for what the user put in
         return `${-number} BC is the year that`;
       } else if (number > currYear) {
         return `${number} will be the year that`;
@@ -113,8 +116,14 @@
   };
 
   const NUM_FROM_URL_REGEX = /(-?[0-9]+)(?:\/(-?[0-9]+))?/;
+  console.log("This is NUM_FROM_URL_REGEX: ", NUM_FROM_URL_REGEX);
+  // TODO: gets number from url using regex
+  // If you find a certain number of / followed by a number, then it's
+  // confirmed to be a date
+  // http://localhost:8124/1/2 <-- /1/2
   exports.getNumFromUrl = function (url) {
     const matches = NUM_FROM_URL_REGEX.exec(url);
+    console.log("matches: ", matches);
     if (!matches) return null;
 
     if (matches[2]) {
@@ -133,6 +142,13 @@
     }
 
     if (url.match(/\/date/) || (matches && matches[2])) {
+      // TODO: if it literally matches "/date", this is true
+      // If you put date at end of url, this fn runs and gets you a specific num
+      // based on date value
+
+      // other routes like /math, /trivia/, /year don't need this because
+      // dates need additional data to set date-time
+
       // number is a day of year, so convert to date and into m/d notation
       let date = new Date(2004, 0);
       date.setDate(num);
